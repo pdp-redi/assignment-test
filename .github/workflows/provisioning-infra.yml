@@ -40,13 +40,7 @@ jobs:
       run: terraform validate
 
     - name: Terraform Plan
-      run: terraform plan -out=tfplan
-
-    - name: Upload Terraform Plan
-      uses: actions/upload-artifact@v3
-      with:
-        name: tfplan
-        path: /
+      run: terraform plan # -out=tfplan
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
