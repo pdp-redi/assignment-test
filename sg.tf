@@ -40,6 +40,13 @@ resource "aws_security_group" "ecs_task" {
     protocol        = "tcp"
     security_groups = [aws_security_group.alb_sg.id]
   }
+  ingress {
+    description     = "8080 port from ALB"
+    from_port       = 8080
+    to_port         = 8080
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
   egress {
     from_port   = 0
     to_port     = 0

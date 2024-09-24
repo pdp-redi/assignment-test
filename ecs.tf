@@ -21,11 +21,11 @@ resource "aws_ecs_task_definition" "my_task" {
   container_definitions = jsonencode([
     {
       name  = var.ecr_repo
-      image = "816069142677.dkr.ecr.ap-south-1.amazonaws.com/node-repo" # Replace with your container image
+      image = "816069142677.dkr.ecr.ap-south-1.amazonaws.com/my-ecr-repo" # Replace with your container image
       portMappings = [
         {
-          containerPort = 80
-          hostPort      = 80
+          containerPort = 8080
+          hostPort      = 8080
         }
       ]
     }
@@ -49,7 +49,7 @@ resource "aws_ecs_service" "my_service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.alb_tg.id
-    container_port   = 80
+    container_port   = 8080
     container_name   = var.ecr_repo
   }
 
