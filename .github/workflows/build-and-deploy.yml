@@ -62,4 +62,4 @@ jobs:
       run: |
         # Replace the following variables with your actual values
         # ECS_SERVICE, ECS_CLUSTER, and IMAGE_TAG
-        aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment --task-definition task-def.json --image "my-app=$ECR_REGISTRY/my-app:$IMAGE_TAG"
+        aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment --task-definition task-def.json --image "my-app=$ECR_REGISTRY/my-ecr-repo:$IMAGE_TAG"
