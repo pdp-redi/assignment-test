@@ -4,11 +4,9 @@ on:
   workflow_dispatch: # Manually trigger the workflow
 
 env:
-  AWS_REGION: us-east-1
-  ECR_REPOSITORY: my-node-app-ecr
-  ECS_SERVICE: my-node-app-service
-  ECS_CLUSTER: my-node-app-cluster
-  CONTAINER_IMAGE: ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
+  AWS_REGION: ap-south-1 
+  ECR_REPOSITORY: my-ecr-repo 
+  ECS_CLUSTER: my-ecs-cluster 
 
 jobs:
 
@@ -25,7 +23,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+        aws-region: ${{ secrets.AWS_REGION }}
         
     - name: Login to Amazon ECR
       id: login-ecr
@@ -34,9 +32,10 @@ jobs:
     - name: Build, tag, and push Docker image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        CONTAINER_IMAGE: ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ env.ECR_REPOSITORY }}:${{ github.sha }}
       run: |
-        docker build -t ${{ env.CONTAINER_IMAGE }} ./node-app
-        docker push ${{ env.CONTAINER_IMAGE }}
+        docker build -t $CONTAINER_IMAGE ./node-app
+        docker push $CONTAINER_IMAGE
         
   deploy-to-ecs:
     name: Deploy to ECS
@@ -57,7 +56,6 @@ jobs:
         aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} \
                                 --service ${{ env.ECS_SERVICE }} \
                                 --force-new-deployment
-
 
 
 # name: Build and Deploy to ECS
