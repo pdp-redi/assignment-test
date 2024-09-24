@@ -39,5 +39,5 @@ variable "private_subnet_cidrs" {
 variable "ecr_repo" {
   type        = string
   description = "ECR repo name"
-  default     = "node-repo"
+  default     = "my-ecr-repo"
 }
