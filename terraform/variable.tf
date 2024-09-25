@@ -36,22 +36,22 @@ variable "domain_name" {
 
 variable "container_port" {
   description = "container port"
-  type        = string
+  type        = number
 }
 
 variable "host_port" {
   description = "host port"
-  type        = string
+  type        = number
 }
 
 variable "fargate_cpu" {
   description = "host port"
-  type        = string
+  type        = number
 }
 
 variable "fargate_memory" {
   description = "host port"
-  type        = string
+  type        = number
 }
 
 variable "ecs_task_defination" {

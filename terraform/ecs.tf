@@ -22,8 +22,8 @@ resource "aws_ecs_task_definition" "my_task" {
     {
       name   = var.ecr_container
       image  = "816069142677.dkr.ecr.ap-south-1.amazonaws.com/my-ecr-repo"
-      cpu    = var.fargate_cpu
-      memory = var.fargate_memory
+      cpu    = tonumber(var.fargate_cpu)
+      memory = tonumber(var.fargate_memory)
       portMappings = [
         {
           containerPort = var.container_port
