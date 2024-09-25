@@ -12,7 +12,6 @@ jobs:
   terraform_destroy:
     name: Terraform Destroy
     runs-on: ubuntu-latest
-    if: github.event.inputs.confirm_destroy == 'DESTROY'
 
     steps:
     - name: Checkout Repository
