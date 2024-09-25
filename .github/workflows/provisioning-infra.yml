@@ -7,14 +7,18 @@ on:
   pull_request:
     branches:
       - master
+defaults:
+  run:
+    shell: bash
+    working-directory: ./terraform
 
 jobs:
   terraform:
-    name: 'Terraform Plan and Apply'
+    name: Terraform Init, Format, Validate, Plan and Apply
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out code
+    - name: Checkout code
       uses: actions/checkout@v4 # Node.js 20 compatible
 
     - name: Setup Terraform
@@ -30,25 +34,37 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -upgrade
 
-    - name: Terraform Format
-      run: terraform fmt -check
-
-    # Plan Step for all branches except master
+    - name: Terraform Format Check
+      run: terraform fmt -check -recursive
+    
+    - name: Terraform Validate
+      run: terraform validate
+    
     - name: Terraform Plan
-      if: github.ref != 'refs/heads/master' # Run plan on non-master branches
       run: terraform plan -out=tfplan
-
-    # Upload Plan for non-master branches
+    
     - name: Upload Terraform Plan
-      if: github.ref != 'refs/heads/master' # Only upload plan for non-master branches
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: tfplan
-        path: tfplan
+        path: ./terraform
+
+    # # Plan Step for all branches except master
+    # - name: Terraform Plan
+    #   if: github.ref != 'refs/heads/master' # Run plan on non-master branches
+    #   run: terraform plan -out=tfplan
+
+    # # Upload Plan for non-master branches
+    # - name: Upload Terraform Plan
+    #   if: github.ref != 'refs/heads/master' # Only upload plan for non-master branches
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: tfplan
+    #     path: tfplan
 
     # Apply Step for master branch
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' # Apply runs only on master
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve tfplan
