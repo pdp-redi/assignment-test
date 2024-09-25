@@ -1,55 +1,56 @@
-variable "project_name" {
-  default = "node-app"
-}
-
 variable "env" {
-  description = "demo-asg-alb-acm-route53"
+  description = "Arsipa-Challenge"
   type        = string
-  default     = "demo"
 }
 
 variable "region" {
-  default = "ap-south-1"
+  description = "region"
+  type        = string
 }
 
 
 variable "vpc_cidr" {
-  type    = string
-  default = "10.0.0.0/16"
+  description = "CIDR range"
+  type        = string
 }
 
 variable "azs" {
-  type        = list(string)
   description = "availability zones"
-  default     = ["ap-south-1a", "ap-south-1b"]
+  type        = list(string)
 }
 
 variable "public_subnet_cidrs" {
+  description = "public subnet CIDR ranges"
   type        = list(string)
-  description = "public subnet CIDR values"
-  default     = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
 variable "private_subnet_cidrs" {
+  description = "private subnet CIDR ranges"
   type        = list(string)
-  description = "private subnet CIDR values"
-  default     = ["10.0.3.0/24", "10.0.4.0/24"]
 }
 
 variable "domain_name" {
   description = "domain_name"
   type        = string
-  default     = "thepradeepreddy.in" #eg:domain
 }
 
-variable "ecr_repo" {
+variable "container_port" {
+  description = "container port"
   type        = string
-  description = "ECR repo name"
-  default     = "my-ecr-repo"
 }
 
-variable "container" {
+variable "host_port" {
+  description = "host port"
   type        = string
-  description = "ECR container name"
-  default     = "my-ecr-container"
 }
+
+variable "fargate_cpu" {
+  description = "host port"
+  type        = string
+}
+
+variable "fargate_memory" {
+  description = "host port"
+  type        = string
+}
+

@@ -4,6 +4,7 @@ data "aws_route53_zone" "selected" {
   private_zone = false
 }
 
+# route53 record
 resource "aws_route53_record" "route53_record" {
   zone_id = data.aws_route53_zone.selected.zone_id
   name    = var.domain_name

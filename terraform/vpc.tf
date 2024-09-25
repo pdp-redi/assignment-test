@@ -1,4 +1,4 @@
-# Create a VPC
+# VPC
 resource "aws_vpc" "vpc" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
@@ -12,7 +12,7 @@ resource "aws_vpc" "vpc" {
 # data "aws_availability_zones" "available" {}
 
 
-# Create internet gateway
+# Internet gateway
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
 
@@ -21,7 +21,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-# Create public subnets
+# public subnets
 resource "aws_subnet" "public_subnets" {
   count                   = length(var.public_subnet_cidrs)
   vpc_id                  = aws_vpc.vpc.id
@@ -34,7 +34,7 @@ resource "aws_subnet" "public_subnets" {
   }
 }
 
-# Create private subnets
+# private subnets
 resource "aws_subnet" "private_subnets" {
   count                   = length(var.private_subnet_cidrs)
   vpc_id                  = aws_vpc.vpc.id
@@ -47,7 +47,7 @@ resource "aws_subnet" "private_subnets" {
   }
 }
 
-# Create a route table for public subnets
+# route table for public subnets
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.vpc.id
 
@@ -68,13 +68,13 @@ resource "aws_route_table_association" "public_subnet_association" {
   route_table_id = aws_route_table.public_rt.id
 }
 
-# Create a Elastic IP for NAT gateway
+# Elastic IP for NAT gateway
 resource "aws_eip" "nat_eip" {
   domain     = "vpc"
   depends_on = [aws_internet_gateway.igw]
 }
 
-# Create a NAT gateway for private subnets (optional, if you need internet access for instances in private subnets)
+# NAT gateway for private subnets (optional, if you need internet access for instances in private subnets)
 resource "aws_nat_gateway" "ngw" {
   allocation_id = aws_eip.nat_eip.id
   subnet_id     = aws_subnet.public_subnets[0].id
@@ -87,7 +87,7 @@ resource "aws_nat_gateway" "ngw" {
   depends_on = [aws_internet_gateway.igw]
 }
 
-# Create a route table for private subnets 
+# route table for private subnets 
 resource "aws_route_table" "private_rt" {
   vpc_id = aws_vpc.vpc.id
 

@@ -1,3 +1,4 @@
+# ACM Certificate
 resource "aws_acm_certificate" "acm" {
   domain_name       = var.domain_name
   validation_method = "DNS"
@@ -29,6 +30,7 @@ resource "aws_route53_record" "cert_validation_record" {
   zone_id         = data.aws_route53_zone.selected.zone_id
 }
 
+# ACM certificate validation
 resource "aws_acm_certificate_validation" "validation" {
   timeouts {
     create = "5m"

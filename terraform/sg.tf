@@ -29,9 +29,9 @@ resource "aws_security_group" "alb_sg" {
 }
 
 # security group for ecs task
-resource "aws_security_group" "ecs_task" {
-  name        = "${var.env}-asg-security-group"
-  description = "ASG Security Group"
+resource "aws_security_group" "ecs_task_sg" {
+  name        = "${var.env}-ecs-task-sg"
+  description = "ECS Task Security Group"
   vpc_id      = aws_vpc.vpc.id
   ingress {
     description     = "HTTP from ALB"
@@ -61,6 +61,6 @@ resource "aws_security_group" "ecs_task" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "${var.env}-asg-sg"
+    Name = "${var.env}-ecs-task-sg"
   }
 }

@@ -1,4 +1,4 @@
-# create a application load balancer
+# application load balancer
 resource "aws_lb" "alb" {
   name               = "${var.env}-alb"
   internal           = false
@@ -39,7 +39,7 @@ resource "aws_lb_target_group" "alb_tg" {
 #   }
 # }
 
-#listener for alb
+# HTTP listener for alb
 resource "aws_lb_listener" "alb_listener" {
   load_balancer_arn = aws_lb.alb.arn
   port              = 80
@@ -58,6 +58,7 @@ resource "aws_lb_listener" "alb_listener" {
   depends_on = [aws_lb_target_group.alb_tg]
 }
 
+# HTTPS listener for alb
 resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.alb.id
   port              = 443
@@ -72,6 +73,7 @@ resource "aws_lb_listener" "https" {
   depends_on = [aws_lb_target_group.alb_tg]
 }
 
+# alb listener certificate
 resource "aws_lb_listener_certificate" "https_additional_certs" {
   #count           = length(var.additional_certs)  
   listener_arn    = aws_lb_listener.https.arn
