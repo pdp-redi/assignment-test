@@ -2,10 +2,10 @@
 FROM node:14-alpine
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json
-COPY node-todo-app/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
