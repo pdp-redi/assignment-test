@@ -14,7 +14,7 @@ defaults:
 
 jobs:
   terraform:
-    name: Terraform Init, Format, Plan
+    name: Terraform Init, Format, Plan and Apply
     runs-on: ubuntu-latest
 
     steps:
