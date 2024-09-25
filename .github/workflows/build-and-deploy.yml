@@ -53,6 +53,18 @@ jobs:
     - name: Download task definition
       run: |
         aws ecs describe-task-definition --task-definition ${{ env.TASK_DEF_ARN }} --query taskDefinition > task-definition.json
+    
+    - name: Update ECS service
+      run: |
+        aws ecs update-service --cluster ${{ env.ECS_CLUSTER }} \
+        --service ${{ env.ECS_SERVICE }} \
+        --force-new-deployment
+  
+    - name: Wait for ECS service to stabilize
+      run: |
+        aws ecs wait services-stable --cluster ${{ env.ECS_CLUSTER }} \
+        --services ${{ env.ECS_SERVICE }}
+        timeout-minutes: 10
 
 
 # jobs:
