@@ -3,22 +3,28 @@ name: Terraform AWS Destroy
 on:
   workflow_dispatch: # Manually triggered
 
+defaults:
+  run:
+    shell: bash
+    working-directory: ./terraform
+
 jobs:
-  destroy:
-    name: 'Terraform Destroy'
+  terraform_destroy:
+    name: Terraform Destroy
     runs-on: ubuntu-latest
+    if: github.event.inputs.confirm_destroy == 'DESTROY'
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4 # Node.js 20 compatible
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3 # Node.js 20 compatible
+      uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: 1.0.0
+        terraform_version: 1.0.0  # Specify your Terraform version here
 
     - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v3 # Node.js 16, will soon run on Node.js 20
+      uses: aws-actions/configure-aws-credentials@v3
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -32,3 +38,33 @@ jobs:
 
     - name: Terraform Apply Destroy
       run: terraform apply -auto-approve tfplan-destroy
+
+# jobs:
+#   destroy:
+#     name: 'Terraform Destroy'
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v4 # Node.js 20 compatible
+
+#     - name: Setup Terraform
+#       uses: hashicorp/setup-terraform@v3 # Node.js 20 compatible
+#       with:
+#         terraform_version: 1.0.0
+
+#     - name: Configure AWS Credentials
+#       uses: aws-actions/configure-aws-credentials@v3 # Node.js 16, will soon run on Node.js 20
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: ${{ secrets.AWS_REGION }}
+
+#     - name: Terraform Init
+#       run: terraform init
+
+#     - name: Terraform Plan Destroy
+#       run: terraform plan -destroy -out=tfplan-destroy
+
+#     - name: Terraform Apply Destroy
+#       run: terraform apply -auto-approve tfplan-destroy
