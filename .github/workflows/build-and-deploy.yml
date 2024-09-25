@@ -9,6 +9,7 @@ env:
   ECS_SERVICE: my-ecs-service  # Set this to your ECS service name
   ECS_CLUSTER: my-ecs-cluster  # Set this to your ECS cluster name
   CONTAINER_NAME: my-ecr-container  # Set this to the name of your container in the task definition
+  TASK_DEFINITION_NAME: my-task-family
 
 jobs:
   deploy:
@@ -43,7 +44,7 @@ jobs:
 
     - name: Download task definition
       run: |
-        aws ecs describe-task-definition --task-definition ${{ env.ECS_SERVICE }} \
+        aws ecs describe-task-definition --task-definition ${{ env.TASK_DEFINITION_NAME }} \
         --query taskDefinition > task-definition.json
 
     #     docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
