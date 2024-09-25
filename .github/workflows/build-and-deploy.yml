@@ -5,11 +5,11 @@ on:
 
 env:
   AWS_REGION: ap-south-1  # Set this to your desired AWS region
-  ECR_REPOSITORY: my-ecr-repo  # Set this to your ECR repository name
-  ECS_SERVICE: my-ecs-service  # Set this to your ECS service name
-  ECS_CLUSTER: my-ecs-cluster  # Set this to your ECS cluster name
-  CONTAINER_NAME: my-ecr-container  # Set this to the name of your container in the task definition
-  TASK_DEFINITION_NAME: my-task-family
+  ECR_REPOSITORY: arsipa-challenge-ecr-repo  # Set this to your ECR repository name
+  ECS_SERVICE: arsipa-challenge-ecs-service  # Set this to your ECS service name
+  ECS_CLUSTER: arsipa-challenge-ecs-cluster  # Set this to your ECS cluster name
+  CONTAINER_NAME: arsipa-challenge-ecr-container  # Set this to the name of your container in the task definition
+  TASK_DEFINITION_NAME: arsipa-challenge-ecs-task-defination
 
 jobs:
   deploy:
