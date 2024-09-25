@@ -54,3 +54,13 @@ variable "fargate_memory" {
   type        = string
 }
 
+variable "ecs_task_defination" {
+  type        = string
+  description = "ESC task defination"
+}
+
+variable "ecr_container" {
+  type        = string
+  description = "ECR container"
+}
+

@@ -10,7 +10,7 @@ resource "aws_ecs_cluster" "my_cluster" {
 
 # ECS Task definition
 resource "aws_ecs_task_definition" "my_task" {
-  family                   = "${var.env}-ecs-task-definition"
+  family                   = var.ecs_task_defination
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.fargate_cpu
@@ -20,8 +20,10 @@ resource "aws_ecs_task_definition" "my_task" {
 
   container_definitions = jsonencode([
     {
-      name  = "${var.env}-ecr-container"
-      image = "816069142677.dkr.ecr.ap-south-1.amazonaws.com/my-ecr-repo"
+      name   = var.ecr_container
+      image  = "816069142677.dkr.ecr.ap-south-1.amazonaws.com/my-ecr-repo"
+      cpu    = var.fargate_cpu
+      memory = var.fargate_memory
       portMappings = [
         {
           containerPort = var.container_port
@@ -50,7 +52,7 @@ resource "aws_ecs_service" "my_service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.alb_tg.id
     container_port   = var.container_port
-    container_name   = "${var.env}-ecr-container"
+    container_name   = var.ecr_container
   }
 
   depends_on = [
