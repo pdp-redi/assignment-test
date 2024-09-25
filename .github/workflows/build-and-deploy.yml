@@ -57,7 +57,7 @@ jobs:
       with:
         task-definition: task-definition.json
         container-name: ${{ env.CONTAINER_NAME }}
-        image: ${{ steps.build-image.outputs.image }}
+        image: $IMAGE_NAME
     
     - name: Debug Task Definition Render
       run: |
