@@ -39,12 +39,9 @@ jobs:
         ECR_REPOSITORY: ${{ env.ECR_REPOSITORY_NAME }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
-        docker tag $ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:latest
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-        echo "Full image name: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-        echo "Latest image name: $ECR_REGISTRY/$ECR_REPOSITORY:latest"
+        docker build -t my-ecr-repo .
+        docker tag my-ecr-repo:latest 816069142677.dkr.ecr.ap-south-1.amazonaws.com/my-ecr-repo:latest
+        docker push 816069142677.dkr.ecr.ap-south-1.amazonaws.com/my-ecr-repo:latest
 
     - name: Download task definition
       run: |
