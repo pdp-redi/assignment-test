@@ -41,3 +41,9 @@ variable "ecr_repo" {
   description = "ECR repo name"
   default     = "my-ecr-repo"
 }
+
+variable "container" {
+  type        = string
+  description = "ECR container name"
+  default     = "my-ecr-container"
+}
