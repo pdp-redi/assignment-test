@@ -36,16 +36,13 @@ jobs:
       #id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: my-ecr-repo
-        IMAGE_TAG: ${{ github.sha }}
+        ECR_REPOSITORY: ${{ env.ECR_REPOSITORY_NAME }}
+        IMAGE_TAG: ${{ env.CONTAINER_NAME }}-${{ github.sha }}
       run: |
-        docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
-        docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.CONTAINER_NAME }}-latest .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-        echo "Full image name: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-        echo "Latest image name: $ECR_REGISTRY/$ECR_REPOSITORY:latest"
-
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.CONTAINER_NAME }}-latest
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
     - name: Download task definition
       run: |
         aws ecs describe-task-definition --task-definition ${{ env.ECS_SERVICE }} --query taskDefinition > task-definition.json
