@@ -51,19 +51,6 @@ jobs:
         name: tfplan
         path: ./terraform
 
-    # # Plan Step for all branches except master
-    # - name: Terraform Plan
-    #   if: github.ref != 'refs/heads/master' # Run plan on non-master branches
-    #   run: terraform plan -out=tfplan
-
-    # # Upload Plan for non-master branches
-    # - name: Upload Terraform Plan
-    #   if: github.ref != 'refs/heads/master' # Only upload plan for non-master branches
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: tfplan
-    #     path: tfplan
-
     # Apply Step for master branch
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' # Apply runs only on master
