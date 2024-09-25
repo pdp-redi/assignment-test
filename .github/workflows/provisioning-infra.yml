@@ -14,7 +14,7 @@ defaults:
 
 jobs:
   terraform:
-    name: Terraform Init, Format, Plan and Apply
+    name: Terraform Init, Format, Validate, Plan and Apply
     runs-on: ubuntu-latest
 
     steps:
@@ -36,14 +36,20 @@ jobs:
     - name: Terraform Init
       run: terraform init -upgrade
 
-    - name: Terraform Format
+    - name: Terraform Format Check
       run: terraform fmt -check -recursive
+    
+    - name: Terraform Validate
+      run: terraform validate
+    
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
     
     - name: Upload Terraform Plan
       uses: actions/upload-artifact@v3
       with:
         name: tfplan
-        path: tfplan
+        path: ./terraform
 
     # # Plan Step for all branches except master
     # - name: Terraform Plan
@@ -61,4 +67,4 @@ jobs:
     # Apply Step for master branch
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' # Apply runs only on master
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve tfplan
