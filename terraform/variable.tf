@@ -36,6 +36,12 @@ variable "private_subnet_cidrs" {
   default     = ["10.0.3.0/24", "10.0.4.0/24"]
 }
 
+variable "domain_name" {
+  description = "domain_name"
+  type        = string
+  default     = "thepradeepreddy.in" #eg:domain
+}
+
 variable "ecr_repo" {
   type        = string
   description = "ECR repo name"
