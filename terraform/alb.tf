@@ -55,7 +55,7 @@ resource "aws_lb_listener" "alb_listener" {
   tags = {
     Name = "${var.env}-alb-listenter"
   }
-  depends_on        = [aws_lb_target_group.alb_tg]
+  depends_on = [aws_lb_target_group.alb_tg]
 }
 
 resource "aws_lb_listener" "https" {
@@ -69,7 +69,7 @@ resource "aws_lb_listener" "https" {
     target_group_arn = aws_lb_target_group.alb_tg.arn
     type             = "forward"
   }
-  depends_on        = [aws_lb_target_group.alb_tg]
+  depends_on = [aws_lb_target_group.alb_tg]
 }
 
 resource "aws_lb_listener_certificate" "https_additional_certs" {
